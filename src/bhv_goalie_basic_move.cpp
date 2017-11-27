@@ -707,7 +707,7 @@ Bhv_GoalieBasicMove::doGoToMovePoint( PlayerAgent * agent,
         agent->debugClient().addMessage( "CorrectY(1)%.0f", dash_power );
         agent->debugClient().setTarget( move_point );
 
-        agent->doDash( dash_power / 100000.0);
+        agent->doDash( 0.0 ); //dash_power / 100000.0);
         agent->setNeckAction( new Neck_GoalieTurnNeck() );
     }
     else
