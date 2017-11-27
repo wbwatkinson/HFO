@@ -242,7 +242,7 @@ Bhv_GoalieChaseBall::doGoToCatchPoint( PlayerAgent * agent,
         dlog.addText( Logger::TEAM,
                       __FILE__": forward dash" );
         agent->debugClient().addMessage( "GoToCatch:Forward" );
-        agent->doDash( dash_power / 4.0);
+        agent->doDash( dash_power / 10.0);
     }
     // back dash
     else if ( rel_angle.abs() > 180.0 - angle_buf )
@@ -270,7 +270,7 @@ Bhv_GoalieChaseBall::doGoToCatchPoint( PlayerAgent * agent,
                       __FILE__": back dash. power=%.1f",
                       dash_power );
         agent->debugClient().addMessage( "GoToCatch:Back" );
-        agent->doDash( dash_power / 4.0);
+        agent->doDash( dash_power / 10.0);
     }
     // forward dash turn
     else if ( rel_angle.abs() < 90.0 )
