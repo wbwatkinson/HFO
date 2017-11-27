@@ -366,7 +366,7 @@ Bhv_GoalieBasicMove::doPrepareDeepCross( PlayerAgent * agent,
     if ( my_inertia.dist( move_point ) > dist_thr )
     {
         // needed to go to move target point
-        double dash_power = getBasicDashPower( agent, move_point );
+        double dash_power = 0.0; // getBasicDashPower( agent, move_point );
         dlog.addText( Logger::TEAM,
                       __FILE__": doPrepareDeepCross. need to move. power=%.1f",
                       dash_power );
@@ -535,7 +535,7 @@ Bhv_GoalieBasicMove::doCorrectX( PlayerAgent * agent,
     if ( ( ! wm.existKickableOpponent() && opp_min_cyc >= 4 )
          || wm.ball().distFromSelf() > 18.0 )
     {
-        double dash_power = getBasicDashPower( agent, move_point );
+        double dash_power = 0.0; // getBasicDashPower( agent, move_point );
 
         dlog.addText( Logger::TEAM,
                       __FILE__": doCorrectX. power=%.1f",
@@ -672,7 +672,7 @@ Bhv_GoalieBasicMove::doGoToMovePoint( PlayerAgent * agent,
     //----------------------------------------------------------//
     // dash to body direction
 
-    double dash_power = getBasicDashPower( agent, move_point );
+    double dash_power = 0.0; // getBasicDashPower( agent, move_point );
 
     // body direction is OK
     if ( std::fabs( wm.self().body().abs() - 90.0 ) < 7.0 )
@@ -699,7 +699,7 @@ Bhv_GoalieBasicMove::doGoToMovePoint( PlayerAgent * agent,
             }
         }
 
-        dash_power = ServerParam::i().normalizeDashPower( dash_power );
+        dash_power = 0.0; // ServerParam::i().normalizeDashPower( dash_power );
 
         dlog.addText( Logger::TEAM,
                       __FILE__": doGoToMovePoint. CorrectY(1) power= %.1f",
@@ -707,7 +707,7 @@ Bhv_GoalieBasicMove::doGoToMovePoint( PlayerAgent * agent,
         agent->debugClient().addMessage( "CorrectY(1)%.0f", dash_power );
         agent->debugClient().setTarget( move_point );
 
-        agent->doDash( 0.0 ); //dash_power / 100000.0);
+        agent->doDash( dash_power );
         agent->setNeckAction( new Neck_GoalieTurnNeck() );
     }
     else
