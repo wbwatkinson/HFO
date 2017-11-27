@@ -93,7 +93,7 @@ RoleGoalie::execute( PlayerAgent * agent )
     }
     else
     {
-        //doMove( agent );
+        doMove( agent );
     }
 
     return true;
