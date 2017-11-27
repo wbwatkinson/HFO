@@ -89,11 +89,11 @@ RoleGoalie::execute( PlayerAgent * agent )
     }
     else if ( agent->world().self().isKickable() )
     {
-        doKick( agent );
+        //doKick( agent );
     }
     else
     {
-        doMove( agent );
+        //doMove( agent );
     }
 
     return true;
