@@ -71,16 +71,16 @@ Bhv_GoToStaticBall::execute( PlayerAgent * agent )
     Vector2D sub_target = wm.ball().pos()
                           + Vector2D::polar2vector( 2.0, M_ball_place_angle + 180.0 );
 
-    double dash_power = 0.0; //20.0;
-    double dash_speed = 0.0; //-1.0;
+    double dash_power = 20.0;
+    double dash_speed = -1.0;
     if ( wm.ball().distFromSelf() > 2.0 )
     {
-        dash_power = 0.0; //Bhv_SetPlay::get_set_play_dash_power( agent );
+        dash_power = Bhv_SetPlay::get_set_play_dash_power( agent );
     }
     else
     {
-        dash_speed = 0.0; //wm.self().playerType().playerSize();
-        dash_power = 0.0; //wm.self().playerType().getDashPowerToKeepSpeed( dash_speed, wm.self().effort() );
+        dash_speed = wm.self().playerType().playerSize();
+        dash_power = wm.self().playerType().getDashPowerToKeepSpeed( dash_speed, wm.self().effort() );
     }
 
     // it is necessary to go to sub target point

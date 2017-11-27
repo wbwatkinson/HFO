@@ -1176,7 +1176,7 @@ Strategy::get_normal_dash_power( const WorldModel & wm )
     }
 
     /*--------------------------------------------------------*/
-    double dash_power = 0.0; //ServerParam::i().maxDashPower();
+    double dash_power = ServerParam::i().maxDashPower();
     const double my_inc
         = wm.self().playerType().staminaIncMax()
         * wm.self().recovery();
@@ -1187,11 +1187,11 @@ Strategy::get_normal_dash_power( const WorldModel & wm )
         dlog.addText( Logger::TEAM,
                       __FILE__": (get_normal_dash_power) correct DF line. keep max power" );
         // keep max power
-        dash_power = 0.0; //ServerParam::i().maxDashPower();
+        dash_power = ServerParam::i().maxDashPower();
     }
     else if ( s_recover_mode )
     {
-        dash_power = 0.0; //my_inc - 25.0; // preffered recover value
+        dash_power = my_inc - 25.0; // preffered recover value
         if ( dash_power < 0.0 ) dash_power = 0.0;
 
         dlog.addText( Logger::TEAM,
@@ -1201,8 +1201,8 @@ Strategy::get_normal_dash_power( const WorldModel & wm )
     else if ( wm.existKickableTeammate()
               && wm.ball().distFromSelf() < 20.0 )
     {
-        dash_power = 0.0; //std::min( my_inc * 1.1,
-                          //     ServerParam::i().maxDashPower() );
+        dash_power = std::min( my_inc * 1.1,
+                               ServerParam::i().maxDashPower() );
         dlog.addText( Logger::TEAM,
                       __FILE__": (get_normal_dash_power) exist kickable teammate. dash_power=%.1f",
                       dash_power );
@@ -1210,7 +1210,7 @@ Strategy::get_normal_dash_power( const WorldModel & wm )
     // in offside area
     else if ( wm.self().pos().x > wm.offsideLineX() )
     {
-        dash_power = 0.0; //ServerParam::i().maxDashPower();
+        dash_power = ServerParam::i().maxDashPower();
         dlog.addText( Logger::TEAM,
                       __FILE__": in offside area. dash_power=%.1f",
                       dash_power );
@@ -1220,9 +1220,9 @@ Strategy::get_normal_dash_power( const WorldModel & wm )
               && self_min < opp_min - 6
               && mate_min < opp_min - 6 )
     {
-        dash_power = 0.0;//bound( ServerParam::i().maxDashPower() * 0.1,
-                    //        my_inc * 0.5,
-                    //        ServerParam::i().maxDashPower() );
+        dash_power = bound( ServerParam::i().maxDashPower() * 0.1,
+                            my_inc * 0.5,
+                            ServerParam::i().maxDashPower() );
         dlog.addText( Logger::TEAM,
                       __FILE__": (get_normal_dash_power) opponent ball dash_power=%.1f",
                       dash_power );
@@ -1230,8 +1230,8 @@ Strategy::get_normal_dash_power( const WorldModel & wm )
     // normal
     else
     {
-        dash_power = 0.0;//std::min( my_inc * 1.7,
-                         //       ServerParam::i().maxDashPower() );
+        dash_power = std::min( my_inc * 1.7,
+                               ServerParam::i().maxDashPower() );
         dlog.addText( Logger::TEAM,
                       __FILE__": (get_normal_dash_power) normal mode dash_power=%.1f",
                       dash_power );
