@@ -247,7 +247,7 @@ Bhv_GoalieChaseBall::doGoToCatchPoint( PlayerAgent * agent,
     // back dash
     else if ( rel_angle.abs() > 180.0 - angle_buf )
     {
-        dash_power = SP.minDashPower();
+        dash_power = 0.0; // SP.minDashPower();
 
         double required_stamina = ( SP.minDashPower() < 0.0
                                     ? SP.minDashPower() * -2.0
@@ -255,13 +255,13 @@ Bhv_GoalieChaseBall::doGoToCatchPoint( PlayerAgent * agent,
         if ( wm.self().stamina() + wm.self().playerType().extraStamina()
              < required_stamina )
         {
-            dash_power = wm.self().stamina() + wm.self().playerType().extraStamina();
+            dash_power = 0.0; // wm.self().stamina() + wm.self().playerType().extraStamina();
             if ( SP.minDashPower() < 0.0 )
             {
                 dash_power *= -0.5;
                 if ( dash_power < SP.minDashPower() )
                 {
-                    dash_power = SP.minDashPower();
+                    dash_power = 0.0; // SP.minDashPower();
                 }
             }
         }

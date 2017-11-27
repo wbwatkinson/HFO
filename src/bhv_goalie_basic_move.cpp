@@ -681,7 +681,7 @@ Bhv_GoalieBasicMove::doGoToMovePoint( PlayerAgent * agent,
         double required_power = y_diff / wm.self().dashRate();
         if ( dash_power > required_power )
         {
-            dash_power = required_power;
+            dash_power = 0.0; // required_power;
         }
 
         if ( move_point.y > wm.self().pos().y )
