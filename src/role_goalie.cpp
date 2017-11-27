@@ -93,6 +93,7 @@ RoleGoalie::execute( PlayerAgent * agent )
     }
     else
     {
+        if (drand(0,1,M_rng) < 0.25)
         doMove( agent );
     }
 
