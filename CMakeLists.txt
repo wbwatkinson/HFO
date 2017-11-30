@@ -17,7 +17,10 @@ ExternalProject_Add(rcssserver
 #  GIT_REPOSITORY "https://github.com/mhauskn/rcssserver.git"
   GIT_REPOSITORY "https://github.com/wbwatkinson/rcssserver.git"
 #  GIT_TAG "master"
-  GIT_TAG "set-player-offset-from-ball"
+#  GIT_TAG "set-player-offset-from-ball"
+#  GIT_TAG "incr-learning-within-range"
+#  GIT_TAG "incr-learning-.1m-out-range"
+#  GIT_TAG "incr-learning-5m-out-range"
   CMAKE_ARGS -DCMAKE_BUILD_TYPE=MinSizeRel
   UPDATE_COMMAND ""
   INSTALL_COMMAND "")
