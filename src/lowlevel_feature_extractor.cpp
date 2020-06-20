@@ -149,12 +149,19 @@ LowLevelFeatureExtractor::ExtractFeatures(const rcsc::WorldModel& wm,
 
   assert(featIndx == num_basic_features);
 
-  // Move last action from end to end of player
-  if (last_action_status) {
-    addFeature(FEAT_MAX);
-  } else {
-    addFeature(FEAT_MIN);
+  const std::list<std::string>& args = cmd_parser.args();
+  bool resequence_features = std::find(args.begin(), args.end(), "--resequence_features") != args.end();
+
+  if (resequence_features)
+    {
+    // Move last action from end to end of player
+    if (last_action_status) {
+      addFeature(FEAT_MAX);
+    } else {
+      addFeature(FEAT_MIN);
+    }
   }
+
 
   // ======================== TEAMMATE FEATURES ======================== //
   // Vector of PlayerObject pointers sorted by increasing distance from self
@@ -176,21 +183,25 @@ LowLevelFeatureExtractor::ExtractFeatures(const rcsc::WorldModel& wm,
     }
   }
 
-  // Move teammate numbers from end to end of teammates
-  detected_teammates = 0;
-  for (PlayerPtrCont::const_iterator it = teammates.begin();
-       it != teammates.end(); ++it) {
-    PlayerObject* teammate = *it;
-    if (teammate->pos().x > 0 && teammate->unum() > 0 &&
-        detected_teammates < numTeammates) {
-      addFeature(teammate->unum()/100.0);
-      detected_teammates++;
+  if (resequence_features) {
+    // Move teammate numbers from end to end of teammates
+    detected_teammates = 0;
+    for (PlayerPtrCont::const_iterator it = teammates.begin();
+         it != teammates.end(); ++it) {
+      PlayerObject* teammate = *it;
+      if (teammate->pos().x > 0 && teammate->unum() > 0 &&
+          detected_teammates < numTeammates) {
+        addFeature(teammate->unum()/100.0);
+        detected_teammates++;
+      }
+    }
+
+    // Add -1 features for any missing teammates
+    for (int i=detected_teammates; i<numTeammates; ++i) {
+      addFeature(FEAT_MIN);
     }
   }
-  // Add -1 features for any missing teammates
-  for (int i=detected_teammates; i<numTeammates; ++i) {
-    addFeature(FEAT_MIN);
-  }
+
 
   // ======================== OPPONENT FEATURES ======================== //
   int detected_opponents = 0;
@@ -211,43 +222,62 @@ LowLevelFeatureExtractor::ExtractFeatures(const rcsc::WorldModel& wm,
     }
   }
 
-  // ========================= UNIFORM NUMBERS ========================== //
-  // detected_teammates = 0;
-  // for (PlayerPtrCont::const_iterator it = teammates.begin();
-  //      it != teammates.end(); ++it) {
-  //   PlayerObject* teammate = *it;
-  //   if (teammate->pos().x > 0 && teammate->unum() > 0 &&
-  //       detected_teammates < numTeammates) {
-  //     addFeature(teammate->unum()/100.0);
-  //     detected_teammates++;
-  //   }
-  // }
-  // // Add -1 features for any missing teammates
-  // for (int i=detected_teammates; i<numTeammates; ++i) {
-  //   addFeature(FEAT_MIN);
-  // }
+  if (resequence_features) {
+    detected_opponents = 0;
+    for (PlayerPtrCont::const_iterator it = opponents.begin();
+         it != opponents.end(); ++it) {
+      PlayerObject* opponent = *it;
+      if (opponent->pos().x > 0 && opponent->unum() > 0 &&
+          detected_opponents < numOpponents) {
+        addFeature(opponent->unum()/100.0);
+        detected_opponents++;
+      }
+    }
 
-  detected_opponents = 0;
-  for (PlayerPtrCont::const_iterator it = opponents.begin();
-       it != opponents.end(); ++it) {
-    PlayerObject* opponent = *it;
-    if (opponent->pos().x > 0 && opponent->unum() > 0 &&
-        detected_opponents < numOpponents) {
-      addFeature(opponent->unum()/100.0);
-      detected_opponents++;
+    // Add -1 features for any missing opponents
+    for (int i=detected_opponents; i<numOpponents; ++i) {
+      addFeature(FEAT_MIN);
     }
   }
-  // Add -1 features for any missing opponents
-  for (int i=detected_opponents; i<numOpponents; ++i) {
-    addFeature(FEAT_MIN);
+
+  if (!resequence_features) {
+    // ========================= UNIFORM NUMBERS ========================== //
+    detected_teammates = 0;
+    for (PlayerPtrCont::const_iterator it = teammates.begin();
+         it != teammates.end(); ++it) {
+      PlayerObject* teammate = *it;
+      if (teammate->pos().x > 0 && teammate->unum() > 0 &&
+          detected_teammates < numTeammates) {
+        addFeature(teammate->unum()/100.0);
+        detected_teammates++;
+      }
+    }
+    // Add -1 features for any missing teammates
+    for (int i=detected_teammates; i<numTeammates; ++i) {
+      addFeature(FEAT_MIN);
+    }
+
+    detected_opponents = 0;
+    for (PlayerPtrCont::const_iterator it = opponents.begin();
+         it != opponents.end(); ++it) {
+      PlayerObject* opponent = *it;
+      if (opponent->pos().x > 0 && opponent->unum() > 0 &&
+          detected_opponents < numOpponents) {
+        addFeature(opponent->unum()/100.0);
+        detected_opponents++;
+      }
+    }
+    // Add -1 features for any missing opponents
+    for (int i=detected_opponents; i<numOpponents; ++i) {
+      addFeature(FEAT_MIN);
+    }
+
+    if (last_action_status) {
+      addFeature(FEAT_MAX);
+    } else {
+      addFeature(FEAT_MIN);
+    }
   }
-
-  // if (last_action_status) {
-  //   addFeature(FEAT_MAX);
-  // } else {
-  //   addFeature(FEAT_MIN);
-  // }
-
   assert(featIndx == numFeatures);
   checkFeatures();
   return feature_vec;

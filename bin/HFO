@@ -210,6 +210,8 @@ def parseArgs():
                  default=False, help='Print verbose output.')
   p.add_argument('--deterministic', dest='deterministic', action='store_true',
                  default=False, help='Make environment deterministic.')
+  p.add_argument('--resequence-features', dest='resequence_features', action='store_true',
+                 default=False, help='Use reordered feature sequence');
   args = p.parse_args()
   if args.offenseAgents not in list(range(0, 11)):
     p.error('argument --offense-agents: invalid choice: '\
