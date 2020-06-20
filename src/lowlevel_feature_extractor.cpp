@@ -25,8 +25,7 @@ LowLevelFeatureExtractor::~LowLevelFeatureExtractor() {}
 
 const std::vector<float>&
 LowLevelFeatureExtractor::ExtractFeatures(const rcsc::WorldModel& wm,
-					  bool last_action_status,
-            CmdLineParser & cmd_parser) {
+					  bool last_action_status) {
   featIndx = 0;
   const ServerParam& SP = ServerParam::i();
   // ======================== SELF FEATURES ======================== //
@@ -150,8 +149,8 @@ LowLevelFeatureExtractor::ExtractFeatures(const rcsc::WorldModel& wm,
 
   assert(featIndx == num_basic_features);
 
-  const std::list<std::string>& args = cmd_parser.args();
-  bool resequence_features = std::find(args.begin(), args.end(), "--resequence_features") != args.end();
+  // const std::list<std::string>& args = cmd_parser.args();
+  bool resequence_features = true; //std::find(args.begin(), args.end(), "--resequence_features") != args.end();
 
   if (resequence_features)
     {

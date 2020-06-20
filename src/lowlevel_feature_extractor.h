@@ -15,8 +15,7 @@ public:
 
   // Updated the state features stored in feature_vec
   virtual const std::vector<float>& ExtractFeatures(const rcsc::WorldModel& wm,
-						    bool last_action_status,
-                rcsc::CmdLineParser& cmd_parser);
+						    bool last_action_status);
 
 protected:
 
