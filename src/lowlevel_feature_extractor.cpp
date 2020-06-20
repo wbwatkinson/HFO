@@ -25,7 +25,8 @@ LowLevelFeatureExtractor::~LowLevelFeatureExtractor() {}
 
 const std::vector<float>&
 LowLevelFeatureExtractor::ExtractFeatures(const rcsc::WorldModel& wm,
-					  bool last_action_status) {
+					  bool last_action_status,
+            CmdLineParser & cmd_parser) {
   featIndx = 0;
   const ServerParam& SP = ServerParam::i();
   // ======================== SELF FEATURES ======================== //
