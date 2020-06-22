@@ -150,7 +150,7 @@ LowLevelFeatureExtractor::ExtractFeatures(const rcsc::WorldModel& wm,
   assert(featIndx == num_basic_features);
 
   // const std::list<std::string>& args = cmd_parser.args();
-  bool resequence_features = true; //std::find(args.begin(), args.end(), "--resequence_features") != args.end();
+  bool resequence_features = false; //std::find(args.begin(), args.end(), "--resequence_features") != args.end();
 
   if (resequence_features)
     {
