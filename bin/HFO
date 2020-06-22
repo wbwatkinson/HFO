@@ -74,7 +74,10 @@ def main(args):
                   'server::fullstate_l=%i server::fullstate_r=%i ' \
                   'server::coach_w_referee=1 server::hfo_max_trial_time=%i ' \
                   'server::hfo_max_trials=%i server::hfo_max_frames=%i ' \
-                  'server::hfo_offense_on_ball=%i server::random_seed=%i ' \
+                  'server::hfo_offense_on_ball=%i ' \
+                  'server::hfo_beyond_kickable=%i ' \
+                  'server::hfo_offense_ball_dist=%f ' \
+                  'server::random_seed=%i ' \
                   'server::hfo_max_untouched_time=%i ' \
                   'server::hfo_min_ball_pos_x=%f ' \
                   'server::hfo_max_ball_pos_x=%f ' \
@@ -87,7 +90,8 @@ def main(args):
                     args.logDir, args.logDir, args.logDir,
                     args.sync, args.fullstate, args.fullstate,
                     args.maxFramesPerTrial, args.numTrials, args.numFrames,
-                    args.offenseOnBall, args.seed, args.maxUntouchedTime,
+                    args.offenseOnBall, args.beyondKickable, args.offenseBallDist,
+                    args.seed, args.maxUntouchedTime,
                     args.min_ball_x, args.max_ball_x,
                     args.min_ball_y, args.max_ball_y,
                     args.messageSize,
@@ -186,12 +190,20 @@ def parseArgs():
                  help='Directory to store logs. Default: log/')
   p.add_argument('--record', dest='record', action='store_true',
                  help='Record logs of states and actions.')
+
   p.add_argument('--offense-on-ball', dest='offenseOnBall', type=int,
                  default=0, help='Ball given to the player represented by the value.\n'\
                  'If value greater than the number of offense players, '\
                  'ball given to a random offense player.\n'\
                  'If value non-positive, ball is not given to any player.\n'\
                  'Default: 0.')
+  p.add_argument('--beyond-kickable', dest='beyondKickable', action='store_true',
+                 default=False, help="Whether ball given to offensive player '\
+                 'should be outside player's kickable range.")
+  p.add_argument('--offense-ball-dist', dest='offenseBallDist', tyoe=float, default=0.0,
+                 help="If the ball should be placed outside offensive player's " \
+
+
   p.add_argument('--fullstate', dest='fullstate', action='store_true',
                  help='Server provides full-state information to agents.')
   p.add_argument('--seed', dest='seed', type=int, default=-1,
@@ -210,8 +222,6 @@ def parseArgs():
                  default=False, help='Print verbose output.')
   p.add_argument('--deterministic', dest='deterministic', action='store_true',
                  default=False, help='Make environment deterministic.')
-  p.add_argument('--resequence-features', dest='resequence_features', action='store_true',
-                 default=False, help='Use reordered feature sequence');
   args = p.parse_args()
   if args.offenseAgents not in list(range(0, 11)):
     p.error('argument --offense-agents: invalid choice: '\
