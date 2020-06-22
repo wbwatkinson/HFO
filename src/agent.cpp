@@ -99,6 +99,7 @@ Agent::Agent()
       M_field_evaluator(createFieldEvaluator()),
       M_action_generator(createActionGenerator()),
       feature_set(LOW_LEVEL_FEATURE_SET),
+      resequence_features(false),
       feature_extractor(NULL),
       lastTrainerMessageTime(-1),
       lastTeammateMessageTime(-1),
@@ -217,15 +218,16 @@ bool Agent::initImpl(CmdLineParser & cmd_parser) {
 FeatureExtractor* Agent::getFeatureExtractor(feature_set_t feature_set_indx,
                                              int numTeammates,
                                              int numOpponents,
-                                             bool playing_offense) {
+                                             bool playing_offense,
+                                             bool resequence_features) {
   switch (feature_set_indx) {
     case LOW_LEVEL_FEATURE_SET:
       return new LowLevelFeatureExtractor(numTeammates, numOpponents,
-                                          playing_offense);
+                                          playing_offense, resequence_features);
       break;
     case HIGH_LEVEL_FEATURE_SET:
       return new HighLevelFeatureExtractor(numTeammates, numOpponents,
-                                           playing_offense);
+                                           playing_offense, resequence_features);
       break;
     default:
       std::cerr << "ERROR: Unrecognized Feature set index: "
@@ -366,7 +368,7 @@ Agent::ProcessTrainerMessages()
         num_opponents = playing_offense ?
 	  hfo_config.num_defense : hfo_config.num_offense;
         feature_extractor = getFeatureExtractor(
-            feature_set, num_teammates, num_opponents, playing_offense);
+            feature_set, num_teammates, num_opponents, playing_offense, resequence_features);
       }
     }
     if (hfo::ParseGameStatus(message, game_status)) {

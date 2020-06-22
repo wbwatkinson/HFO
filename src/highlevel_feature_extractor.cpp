@@ -9,8 +9,9 @@ using namespace rcsc;
 
 HighLevelFeatureExtractor::HighLevelFeatureExtractor(int num_teammates,
                                                      int num_opponents,
-                                                     bool playing_offense) :
-  FeatureExtractor(num_teammates, num_opponents, playing_offense)
+                                                     bool playing_offense,
+                                                     bool resequence_features) :
+  FeatureExtractor(num_teammates, num_opponents, playing_offense, resequence_features)
 {
   assert(numTeammates >= 0);
   assert(numOpponents >= 0);

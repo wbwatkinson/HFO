@@ -11,11 +11,13 @@ using namespace rcsc;
 
 FeatureExtractor::FeatureExtractor(int num_teammates,
                                    int num_opponents,
-                                   bool playing_offense) :
+                                   bool playing_offense,
+                                   bool resequence_features) :
     numFeatures(-1),
     numTeammates(num_teammates),
     numOpponents(num_opponents),
-    playingOffense(playing_offense)
+    playingOffense(playing_offense),
+    resequenceFeatures(resequence_features)
 {
   const ServerParam& SP = ServerParam::i();
 

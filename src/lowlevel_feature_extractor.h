@@ -10,7 +10,7 @@
 class LowLevelFeatureExtractor : public FeatureExtractor {
 public:
   LowLevelFeatureExtractor(int num_teammates, int num_opponents,
-                           bool playing_offense);
+                           bool playing_offense, bool resequence_features);
   virtual ~LowLevelFeatureExtractor();
 
   // Updated the state features stored in feature_vec

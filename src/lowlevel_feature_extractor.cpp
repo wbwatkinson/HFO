@@ -9,8 +9,9 @@ using namespace rcsc;
 
 LowLevelFeatureExtractor::LowLevelFeatureExtractor(int num_teammates,
                                                    int num_opponents,
-                                                   bool playing_offense) :
-    FeatureExtractor(num_teammates, num_opponents, playing_offense)
+                                                   bool playing_offense,
+                                                   bool resequence_features) :
+    FeatureExtractor(num_teammates, num_opponents, playing_offense, resequence_features)
 {
   assert(numTeammates >= 0);
   assert(numOpponents >= 0);
@@ -150,10 +151,9 @@ LowLevelFeatureExtractor::ExtractFeatures(const rcsc::WorldModel& wm,
   assert(featIndx == num_basic_features);
 
   // const std::list<std::string>& args = cmd_parser.args();
-  bool resequence_features = false; //std::find(args.begin(), args.end(), "--resequence_features") != args.end();
+  // bool resequence_features = true; //std::find(args.begin(), args.end(), "--resequence_features") != args.end();
 
-  if (resequence_features)
-    {
+  if (resequenceFeatures) {
     // Move last action from end to end of player
     if (last_action_status) {
       addFeature(FEAT_MAX);
@@ -183,7 +183,7 @@ LowLevelFeatureExtractor::ExtractFeatures(const rcsc::WorldModel& wm,
     }
   }
 
-  if (resequence_features) {
+  if (resequenceFeatures) {
     // Move teammate numbers from end to end of teammates
     detected_teammates = 0;
     for (PlayerPtrCont::const_iterator it = teammates.begin();
@@ -222,7 +222,7 @@ LowLevelFeatureExtractor::ExtractFeatures(const rcsc::WorldModel& wm,
     }
   }
 
-  if (resequence_features) {
+  if (resequenceFeatures) {
     detected_opponents = 0;
     for (PlayerPtrCont::const_iterator it = opponents.begin();
          it != opponents.end(); ++it) {
@@ -240,7 +240,7 @@ LowLevelFeatureExtractor::ExtractFeatures(const rcsc::WorldModel& wm,
     }
   }
 
-  if (!resequence_features) {
+  if (!resequenceFeatures) {
     // ========================= UNIFORM NUMBERS ========================== //
     detected_teammates = 0;
     for (PlayerPtrCont::const_iterator it = teammates.begin();

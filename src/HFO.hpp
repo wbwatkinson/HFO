@@ -33,7 +33,8 @@ class HFOEnvironment {
                        std::string server_addr="localhost",
                        std::string team_name="base_left",
                        bool play_goalie=false,
-                       std::string record_dir="");
+                       std::string record_dir="",
+                       bool resequence_features=false);
 
   // Get the current state of the domain. Returns a reference to feature_vec.
   const std::vector<float>& getState();
@@ -54,6 +55,8 @@ class HFOEnvironment {
 
   // Returns the number of opponents
   virtual int getNumOpponents();
+
+  // virtual bool getResequenceFeatures();
 
   // Get the current player holding the ball
   virtual Player playerOnBall();

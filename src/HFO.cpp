@@ -35,8 +35,9 @@ void HFOEnvironment::connectToServer(feature_set_t feature_set,
                                      std::string server_addr,
                                      std::string team_name,
                                      bool play_goalie,
-                                     std::string record_dir) {
-  agent->setFeatureSet(feature_set);
+                                     std::string record_dir,
+                                     bool resequence_features) {
+  agent->setFeatureSet(feature_set, resequence_features);
   rcsc::PlayerConfig& config = agent->mutable_config();
   config.setConfigDir(config_dir);
   config.setPort(server_port);

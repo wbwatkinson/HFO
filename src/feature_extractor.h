@@ -10,7 +10,7 @@ typedef std::pair<float, float> OpenAngle;
 
 class FeatureExtractor {
 public:
-  FeatureExtractor(int num_teammates, int num_opponents, bool playing_offense);
+  FeatureExtractor(int num_teammates, int num_opponents, bool playing_offense, bool resequence_features);
   virtual ~FeatureExtractor();
 
   // Updated the state features stored in feature_vec
@@ -135,6 +135,7 @@ protected:
   int numTeammates; // Number of teammates in HFO
   int numOpponents; // Number of opponents in HFO
   bool playingOffense; // Are we playing offense or defense?
+  bool resequenceFeatures; 
 };
 
 #endif // FEATURE_EXTRACTOR_H

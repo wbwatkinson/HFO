@@ -103,6 +103,7 @@ protected:
   long lastTrainerMessageTime;
   int num_teammates, num_opponents;
   bool playing_offense;
+  bool resequence_features;
 };
 
 #endif

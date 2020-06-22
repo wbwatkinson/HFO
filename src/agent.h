@@ -22,7 +22,8 @@ public:
   static FeatureExtractor* getFeatureExtractor(hfo::feature_set_t feature_set,
                                                int num_teammates,
                                                int num_opponents,
-                                               bool playing_offense);
+                                               bool playing_offense,
+                                               bool resequence_features);
 
   inline long statusUpdateTime() { return lastStatusUpdateTime; }
 
@@ -65,6 +66,7 @@ protected:
   std::vector<float> params;           // Parameters of current action
   int num_teammates;                   // Number of teammates
   int num_opponents;                   // Number of opponents
+  bool resequence_features;            // Resequence features so that additional players are appended to end
   bool last_action_status;  // Recorded return status of last action
 
  public:
@@ -75,9 +77,10 @@ protected:
   int getUnum(); // Returns the uniform number of the player
   inline int getNumTeammates() { return num_teammates; }
   inline int getNumOpponents() { return num_opponents; }
+  // inline bool getResequenceFeatures() { return resequence_features; }
   inline bool getLastActionStatus() { return last_action_status; }
 
-  inline void setFeatureSet(hfo::feature_set_t fset) { feature_set = fset; }
+  inline void setFeatureSet(hfo::feature_set_t fset, bool res_features) { feature_set = fset; resequence_features = res_features; }
   inline std::vector<float>* mutable_params() { return &params; }
   inline void setAction(hfo::action_t a) { requested_action = a; }
   inline void setSayMsg(const std::string& message) { say_msg = message; }

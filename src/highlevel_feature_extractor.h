@@ -16,7 +16,7 @@
 class HighLevelFeatureExtractor : public FeatureExtractor {
 public:
   HighLevelFeatureExtractor(int num_teammates, int num_opponents,
-                            bool playing_offense);
+                            bool playing_offense, bool resequence_features);
   virtual ~HighLevelFeatureExtractor();
 
   // Updated the state features stored in feature_vec

@@ -103,7 +103,8 @@ SamplePlayer::SamplePlayer()
       lastTrainerMessageTime(-1),
       num_teammates(-1),
       num_opponents(-1),
-      playing_offense(false)
+      playing_offense(false),
+      resequence_features(false)
 {
     boost::shared_ptr< AudioMemory > audio_memory( new AudioMemory );
 
@@ -245,8 +246,10 @@ SamplePlayer::actionImpl()
               hfo_config.num_offense - 1 : hfo_config.num_defense - 1;
           int num_opponents = playing_offense ?
               hfo_config.num_defense : hfo_config.num_offense;
+          bool resequence_features = false;
+
           feature_extractor = new LowLevelFeatureExtractor(
-              num_teammates, num_opponents, playing_offense);
+              num_teammates, num_opponents, playing_offense, resequence_features);
         }
       }
       hfo::status_t game_status;
